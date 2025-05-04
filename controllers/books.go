@@ -21,7 +21,14 @@ type UpdateBookInput struct {
 func FindBooks(c *gin.Context) {
 	var books []models.Book
 
-	models.DB.Find(&books)
+	query := models.DB
+	title := c.Query("title")
+
+	if title != "" {
+		query = query.Where("title LIKE ?", "%"+title+"%")
+	}
+
+	query.Find(&books)
 
 	c.JSON(http.StatusOK, gin.H{
 		"data": books,
