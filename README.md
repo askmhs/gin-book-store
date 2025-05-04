@@ -23,7 +23,14 @@ A simple RESTful API for managing a bookstore, built with [Gin](https://github.c
    go get .
    ```
 
-**3. Run the application:**
+**3. Set up ENV config:**
+
+   ```bash
+   cp .env.example .env
+   ```
+Update the ENV variables value
+
+**4. Run the application:**
 
    ```bash
    go run main.go
