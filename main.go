@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/askmhs/gin-book-store/config"
 	"github.com/askmhs/gin-book-store/models"
 	"github.com/askmhs/gin-book-store/routes"
 
@@ -10,6 +11,7 @@ import (
 )
 
 func main() {
+	config.LoadConfig()
 	r := gin.Default()
 
 	models.ConnectDatabase()
@@ -23,7 +25,7 @@ func main() {
 	// Register routes
 	routes.RegisterRoutes(r)
 
-	err := r.Run()
+	err := r.Run(":" + config.AppConfig.AppPort)
 
 	if err != nil {
 		return
