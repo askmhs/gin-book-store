@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/askmhs/gin-book-store/config"
-	"github.com/askmhs/gin-book-store/models"
 	"github.com/askmhs/gin-book-store/routes"
 
 	"github.com/gin-gonic/gin"
@@ -14,7 +13,7 @@ func main() {
 	config.LoadConfig()
 	r := gin.Default()
 
-	models.ConnectDatabase()
+	config.ConnectDatabase()
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
