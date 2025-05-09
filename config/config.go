@@ -8,7 +8,9 @@ import (
 )
 
 type Config struct {
-	AppPort string
+	AppPort   string
+	JwtSecret string
+	JwtIssuer string
 }
 
 var AppConfig *Config
@@ -21,7 +23,9 @@ func LoadConfig() {
 	}
 
 	AppConfig = &Config{
-		AppPort: getEnv("APP_PORT", "8080"),
+		AppPort:   getEnv("APP_PORT", "8080"),
+		JwtSecret: getEnv("JWT_SECRET", "-"),
+		JwtIssuer: getEnv("JWT_ISSUER", "-"),
 	}
 }
 

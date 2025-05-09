@@ -12,6 +12,7 @@ import (
 func main() {
 	config.LoadConfig()
 	r := gin.Default()
+	r.SetTrustedProxies([]string{"127.0.0.1"})
 
 	config.ConnectDatabase()
 
@@ -24,7 +25,7 @@ func main() {
 	// Register routes
 	routes.RegisterRoutes(r)
 
-	err := r.Run(":" + config.AppConfig.AppPort)
+	err := r.Run("127.0.0.1:" + config.AppConfig.AppPort)
 
 	if err != nil {
 		return
