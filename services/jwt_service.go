@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"time"
 
-	"maps"
-
 	"github.com/askmhs/gin-book-store/config"
 	"github.com/golang-jwt/jwt/v5"
 )
+
+type jwtCustomClaims struct {
+	Data any `json:"data"`
+	jwt.RegisteredClaims
+}
 
 type JwtService struct {
 	secretKey string
@@ -27,19 +30,20 @@ func NewJwtService() *JwtService {
 }
 
 func (s *JwtService) GenerateToken(data map[string]any) (string, error) {
-	claims := jwt.MapClaims{
-		"iss": s.issuer,
-		"exp": time.Now().Add(2 * time.Hour),
+	claims := &jwtCustomClaims{
+		Data: data,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(2 * time.Hour)),
+			Issuer:    config.AppConfig.JwtIssuer,
+		},
 	}
-
-	maps.Copy(claims, data)
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(s.secretKey))
 }
 
 func (s *JwtService) ValidateToken(encodedToken string) (map[string]any, error) {
-	token, err := jwt.Parse(encodedToken, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.Parse(encodedToken, func(token *jwt.Token) (any, error) {
 		return []byte(s.secretKey), nil
 	})
 
