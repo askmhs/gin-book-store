@@ -39,6 +39,8 @@ The server will start on http://localhost:8080.
 
 ## 📖 API Endpoints
 
+- `POST /users/register` - Register a new user
+- `POST /useres/login` - Login user
 - `GET /books` - Retrieve all books
 - `GET /books/:id` - Retrieve a book by ID
 - `POST /books` - Create a new book
